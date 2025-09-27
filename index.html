@@ -409,13 +409,22 @@
             <span data-i18n="hrs_val">Sun–Thu, 9:00–18:00</span>
           </div>
         </div>
-        <!-- Replaced with FormSubmit form as requested -->
+        <!-- Updated FormSubmit form as requested -->
         <form action="https://formsubmit.co/oxfordbah@gmail.com"
               method="POST"
               enctype="multipart/form-data">
+
+          <!-- FormSubmit options -->
           <input type="hidden" name="_captcha" value="false">
           <input type="hidden" name="_subject" value="New file from Oxford website">
-          ...
+          <input type="hidden" name="_template" value="table">
+          <input type="hidden" name="_next" value="https://navazkhalid786-spec.github.io/oxfordP/?sent#thanks">
+
+          <input class="input" type="email" name="email" placeholder="Your email" required>
+          <input class="input" type="tel" name="phone" placeholder="Phone / WhatsApp (optional)">
+          <input class="file" type="file" name="files" accept=".pdf,.jpg,.jpeg,.png,.doc,.docx" multiple required>
+
+          <button class="btn-chip" type="submit">Send</button>
         </form>
       </div>
     </section>
