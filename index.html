@@ -435,13 +435,13 @@
         <div class="footer-left" data-i18n="footer">© Oxford Translation Center — Premium Translation & Business Consultancy</div>
         <nav class="footer-right socials" aria-label="Social links">
           <!-- Replace # with your real profile URLs -->
-          <a class="soc-btn" href="#" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+          <a class="soc-btn" href="https://www.linkedin.com/in/oxfordbh" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
             <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4.98 3.5C4.98 4.88 3.88 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1 4.98 2.12 4.98 3.5zM0 24h5V7H0v17zM8 7h4.8v2.2h.1c.7-1.2 2.4-2.6 4.9-2.6C23.2 6.6 24 9.1 24 13.2V24h-5v-9.7c0-2.3 0-5.3-3.3-5.3-3.3 0-3.8 2.6-3.8 5.1V24H8V7z"/></svg>
           </a>
-          <a class="soc-btn" href="#" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+          <a class="soc-btn" href="https://www.instagram.com/oxford.bh?igsh=MWlxaDlnYzVuM2lo&utm_source=qr" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
             <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm0 2a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3H7zm5 3.5A5.5 5.5 0 1 1 6.5 13 5.5 5.5 0 0 1 12 7.5zm0 2A3.5 3.5 0 1 0 15.5 13 3.5 3.5 0 0 0 12 9.5zM18.5 6a1 1 0 1 1 1-1 1 1 0 0 1-1 1z"/></svg>
           </a>
-          <a class="soc-btn" href="#" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+          <a class="soc-btn" href="https://www.facebook.com/share/1BDQrKASYB/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
             <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M22 12a10 10 0 1 0-11.5 9.9v-7H7.9V12h2.6V9.7c0-2.6 1.6-4 4-4 1.2 0 2.4.2 2.4.2v2.7h-1.4c-1.4 0-1.8.9-1.8 1.8V12h3l-.5 3.9h-2.5v7A10 10 0 0 0 22 12z"/></svg>
           </a>
         </nav>
@@ -453,12 +453,12 @@
   <div id="drop-toggle" class="drop-toggle" aria-controls="drop-panel" aria-expanded="false" data-i18n="drop_toggle">Drop your document</div>
   <aside id="drop-panel" class="drop-panel" aria-hidden="true" aria-label="Quick quote form">
     <button type="button" class="drop-close" aria-label="Close">✕</button>
-    <form id="contact-form" class="form" action="https://formspree.io/f/mjkagwrv" method="POST" enctype="multipart/form-data">
+    <form id="contact-form" class="form" action="https://formsubmit.co/ajax/oxfordbah@gmail.com" method="POST" enctype="multipart/form-data">
       <h3 style="margin:0 0 8px" data-i18n="drop_head">Quick Quote</h3>
       <input class="input" id="cf-email" type="email" name="email" data-ph="drop_email" placeholder="Your email" required>
       <input class="input" id="cf-phone" type="tel" name="phone" data-ph="drop_phone" placeholder="Phone / WhatsApp (optional)">
       <textarea class="input" id="cf-message" name="message" placeholder="Message (optional)"></textarea>
-      <input class="file" id="cf-file" type="file" name="file" accept=".pdf,.jpg,.jpeg,.png,.doc,.docx" required>
+      <input class="file" id="cf-file" type="file" name="attachment" accept=".pdf,.jpg,.jpeg,.png,.doc,.docx" required>
       <button class="btn-chip" id="cf-submit" type="submit"><span data-i18n="drop_send">Send</span></button>
       <p id="cf-status" class="hint" style="margin:8px 0 0" data-i18n="drop_hint">We reply with <b>quotes within hours</b>. Files kept confidential.</p>
     </form>
@@ -652,7 +652,7 @@
       close?.addEventListener('click', toggle);
     })();
 
-    // AJAX submit for the contact form (Formspree)
+    // AJAX submit for the contact form (FormSubmit)
     (function(){
       const form = document.getElementById('contact-form');
       const status = document.getElementById('cf-status');
@@ -664,19 +664,23 @@
         submitBtn.disabled = true;
         try{
           const data = new FormData(form);
-          const res = await fetch(form.action, { method: form.method, body: data, headers: { 'Accept': 'application/json' } });
+          // Post to FormSubmit AJAX endpoint (action set on the form)
+          const res = await fetch(form.action, { method: form.method || 'POST', body: data, headers: { 'Accept': 'application/json' } });
           if(res.ok){
-            status.textContent = 'Thanks — we received your file. We will reply with a quote soon.';
+            const json = await res.json().catch(()=>null);
+            // FormSubmit returns a JSON success object for AJAX requests
+            status.textContent = (json && json.message) ? json.message : 'Thanks — we received your file. We will reply with a quote soon.';
             form.reset();
           } else {
             const json = await res.json().catch(()=>({}));
-            if(json && json.errors){
-              status.textContent = json.errors.map(err=>err.message).join(', ');
-            } else {
-              status.textContent = 'Submission failed — please try again later.';
-            }
+            // Try to surface helpful FormSubmit messages when available
+            const errMsg = (json && (json.message || (json.errors && json.errors.join(', ')))) || '';
+            if(errMsg) status.textContent = errMsg;
+            else status.textContent = 'Submission failed — please try again later.';
+            console.warn('FormSubmit error response:', json || res.status);
           }
         }catch(err){
+          console.error('Network error while sending form:', err);
           status.textContent = 'Network error — please try again.';
         }finally{
           submitBtn.disabled = false;
