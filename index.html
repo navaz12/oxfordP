@@ -458,7 +458,8 @@
       <input class="input" id="cf-email" type="email" name="email" data-ph="drop_email" placeholder="Your email" required>
       <input class="input" id="cf-phone" type="tel" name="phone" data-ph="drop_phone" placeholder="Phone / WhatsApp (optional)">
       <textarea class="input" id="cf-message" name="message" placeholder="Message (optional)"></textarea>
-      <input class="file" id="cf-file" type="file" name="attachment" accept=".pdf,.jpg,.jpeg,.png,.doc,.docx" required>
+  <input class="file" id="cf-file" type="file" name="attachment" accept=".pdf,.doc,.docx,.ppt,.pptx,.jpg,.jpeg,.png" required>
+  <div id="cf-file-info" class="hint" style="margin:6px 0 0;color:var(--muted);font-size:13px"></div>
       <button class="btn-chip" id="cf-submit" type="submit"><span data-i18n="drop_send">Send</span></button>
       <p id="cf-status" class="hint" style="margin:8px 0 0" data-i18n="drop_hint">We reply with <b>quotes within hours</b>. Files kept confidential.</p>
     </form>
@@ -663,6 +664,28 @@
         const submitBtn = document.getElementById('cf-submit');
         submitBtn.disabled = true;
         try{
+          // Client-side validation: file present, allowed type, within 4 MB
+          const fileEl = document.getElementById('cf-file');
+          const file = fileEl && fileEl.files && fileEl.files[0];
+          const MAX_BYTES = 4 * 1024 * 1024; // 4 MB
+          const allowedExt = ['pdf','doc','docx','ppt','pptx','jpg','jpeg','png'];
+          if(!file){
+            status.textContent = 'Please attach a file before sending.';
+            submitBtn.disabled = false;
+            return;
+          }
+          const ext = (file.name || '').split('.').pop().toLowerCase();
+          if(!allowedExt.includes(ext)){
+            status.textContent = 'File type not allowed. Allowed: PDF, Word (.doc/.docx), PowerPoint (.ppt/.pptx), JPG/PNG.';
+            submitBtn.disabled = false;
+            return;
+          }
+          if(file.size > MAX_BYTES){
+            status.textContent = 'File too large — maximum allowed size is 4 MB.';
+            submitBtn.disabled = false;
+            return;
+          }
+
           const data = new FormData(form);
           // Post to FormSubmit AJAX endpoint (action set on the form)
           const res = await fetch(form.action, { method: form.method || 'POST', body: data, headers: { 'Accept': 'application/json' } });
@@ -671,6 +694,8 @@
             // FormSubmit returns a JSON success object for AJAX requests
             status.textContent = (json && json.message) ? json.message : 'Thanks — we received your file. We will reply with a quote soon.';
             form.reset();
+            // clear file info display
+            const info = document.getElementById('cf-file-info'); if(info) info.textContent = '';
           } else {
             const json = await res.json().catch(()=>({}));
             // Try to surface helpful FormSubmit messages when available
@@ -687,6 +712,17 @@
           setTimeout(()=> status.textContent = '', 6000);
         }
       });
+      // Show selected file info (name + size)
+      const fileInput = document.getElementById('cf-file');
+      const fileInfo = document.getElementById('cf-file-info');
+      if(fileInput && fileInfo){
+        fileInput.addEventListener('change', ()=>{
+          const f = fileInput.files && fileInput.files[0];
+          if(!f){ fileInfo.textContent = ''; return; }
+          const mb = (f.size / (1024*1024));
+          fileInfo.textContent = `${f.name} — ${mb.toFixed(2)} MB (max 4 MB)`;
+        });
+      }
     })();
   </script>
 </body>
