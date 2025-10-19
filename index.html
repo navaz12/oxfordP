@@ -421,20 +421,10 @@
             <span data-i18n="hrs_val">Sun–Thu, 9:00–18:00</span>
           </div>
         </div>
-        <!-- Formspree contact form (AJAX submit w/ file upload) -->
-        <form id="contact-form" class="form" action="https://formspree.io/f/mjkagwrv" method="POST" enctype="multipart/form-data">
-          <input type="hidden" name="_subject" value="New file from Oxford website">
-          <div style="grid-column:1/-1; display:flex; gap:12px; align-items:center; flex-wrap:wrap;">
-            <input class="input" id="cf-email" type="email" name="email" placeholder="Your email" required style="flex:1;min-width:220px">
-            <input class="input" id="cf-phone" type="tel" name="phone" placeholder="Phone / WhatsApp (optional)" style="flex:1;min-width:220px">
-            <textarea class="input" id="cf-message" name="message" placeholder="Message (optional)" style="flex-basis:100%;min-height:92px;padding:12px;border-radius:12px"></textarea>
-            <input class="file" id="cf-file" type="file" name="file" accept=".pdf,.jpg,.jpeg,.png,.doc,.docx" required style="flex-basis:100%">
-            <div style="display:flex;gap:12px;align-items:center;width:100%">
-              <button id="cf-submit" class="btn-chip" type="submit">Send</button>
-              <p id="cf-status" style="margin:0;color:var(--muted);font-size:14px"></p>
-            </div>
-          </div>
-        </form>
+        <!-- Use the drop-panel (right slide-out) for file uploads. The actual upload form is in the drop panel. -->
+        <div style="grid-column:1/-1; display:flex; gap:12px; align-items:center; flex-wrap:wrap;">
+          <p style="margin:0;color:var(--muted)">Use the "Drop your document" button on the right to attach files for a quick quote.</p>
+        </div>
       </div>
     </section>
   </main>
@@ -463,13 +453,14 @@
   <div id="drop-toggle" class="drop-toggle" aria-controls="drop-panel" aria-expanded="false" data-i18n="drop_toggle">Drop your document</div>
   <aside id="drop-panel" class="drop-panel" aria-hidden="true" aria-label="Quick quote form">
     <button type="button" class="drop-close" aria-label="Close">✕</button>
-    <form class="form" action="#" method="POST" enctype="multipart/form-data">
+    <form id="contact-form" class="form" action="https://formspree.io/f/mjkagwrv" method="POST" enctype="multipart/form-data">
       <h3 style="margin:0 0 8px" data-i18n="drop_head">Quick Quote</h3>
-      <input class="input" type="email" name="email" data-ph="drop_email" placeholder="Your email" required>
-      <input class="input" type="tel" name="phone" data-ph="drop_phone" placeholder="Phone / WhatsApp (optional)">
-      <input class="file" type="file" name="file" accept=".pdf,.jpg,.jpeg,.png,.doc,.docx" multiple required>
-      <button class="btn-chip" type="submit"><span data-i18n="drop_send">Send</span></button>
-      <p class="hint" style="margin:8px 0 0" data-i18n="drop_hint">We reply with <b>quotes within hours</b>. Files kept confidential.</p>
+      <input class="input" id="cf-email" type="email" name="email" data-ph="drop_email" placeholder="Your email" required>
+      <input class="input" id="cf-phone" type="tel" name="phone" data-ph="drop_phone" placeholder="Phone / WhatsApp (optional)">
+      <textarea class="input" id="cf-message" name="message" placeholder="Message (optional)"></textarea>
+      <input class="file" id="cf-file" type="file" name="file" accept=".pdf,.jpg,.jpeg,.png,.doc,.docx" required>
+      <button class="btn-chip" id="cf-submit" type="submit"><span data-i18n="drop_send">Send</span></button>
+      <p id="cf-status" class="hint" style="margin:8px 0 0" data-i18n="drop_hint">We reply with <b>quotes within hours</b>. Files kept confidential.</p>
     </form>
   </aside>
 
