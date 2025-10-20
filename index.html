@@ -636,8 +636,10 @@
         const form = document.getElementById('dropForm');
   const statusEl = document.getElementById('dropFormStatus');
   const hintEl = document.getElementById('dropHint');
-        const sendBtn = document.getElementById('dropSendBtn');
-        const fileInput = document.getElementById('dropFiles');
+  const sendBtn = document.getElementById('dropSendBtn');
+  const fileInput = document.getElementById('dropFiles');
+  // Preserve the initial hint so we can restore it after reset
+  const initialHint = hintEl ? hintEl.innerHTML : '';
 
         // Show selected file count (small) next to the button
         function updateFileLabel(){
@@ -671,10 +673,39 @@
                 // Show final message in the hint area and keep inputs disabled
                 if(hintEl){ hintEl.style.color = 'var(--accent)'; hintEl.innerHTML = 'Submission completed — we will contact you asap.'; }
                 if(statusEl){ statusEl.textContent = ''; }
-                if(sendBtn){ sendBtn.disabled = true; }
+                if(sendBtn){
+                  // store original text and show a submitted state
+                  sendBtn.dataset.origText = sendBtn.innerHTML || 'Send';
+                  sendBtn.disabled = true;
+                  sendBtn.innerHTML = 'Submitted ✓';
+                  sendBtn.style.opacity = '0.95';
+                }
                 if(fileInput){ fileInput.disabled = true; }
-                // Optionally close the panel after short delay (commented out)
-                // setTimeout(()=> document.getElementById('drop-panel').setAttribute('aria-hidden','true'), 900);
+
+                // After a short delay close the panel and reset the form so it doesn't remain stuck
+                setTimeout(() => {
+                  try{
+                    const panel = document.getElementById('drop-panel');
+                    const toggle = document.getElementById('drop-toggle');
+                    if(panel){
+                      panel.setAttribute('aria-hidden','true');
+                      panel.style.transform = 'translateX(100%)';
+                    }
+                    if(toggle){ toggle.setAttribute('aria-expanded','false'); }
+
+                    // Reset the form to allow a fresh submission
+                    form.reset();
+                    if(sendBtn){
+                      sendBtn.disabled = false;
+                      sendBtn.innerHTML = sendBtn.dataset.origText || 'Send';
+                      sendBtn.style.opacity = '1';
+                    }
+                    if(fileInput){ fileInput.disabled = false; }
+                    if(hintEl){ hintEl.style.color = '#bdbdbd'; hintEl.innerHTML = initialHint; }
+                    // clear status label
+                    if(statusEl){ statusEl.textContent = ''; }
+                  }catch(e){ console.error('reset after submit failed', e); }
+                }, 3000);
               })
               .catch(err => {
                 // Show a concise error message inline
