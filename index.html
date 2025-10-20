@@ -423,26 +423,7 @@
             <span data-i18n="hrs_val">Sun–Thu, 9:00–18:00</span>
           </div>
         </div>
-        <!-- Updated FormSubmit form as requested -->
-        <form action="https://formsubmit.co/oxfordbah@gmail.com"
-              method="POST"
-              enctype="multipart/form-data">
-
-          <!-- FormSubmit options -->
-          <input type="hidden" name="_captcha" value="false">
-          <input type="hidden" name="_subject" value="New file from Oxford website">
-          <input type="hidden" name="_template" value="table">
-          <input type="hidden" name="_next" value="https://navazkhalid786-spec.github.io/oxfordP/?sent#thanks">
-
-          <input class="input" type="email" name="email" placeholder="Your email" required>
-          <input class="input" type="tel" name="phone" placeholder="Phone / WhatsApp (optional)">
-          <label class="custom-file" style="position:relative">
-            <span class="file-btn">Choose Files</span>
-            <input class="file file-input" type="file" name="files" accept=".pdf,.jpg,.jpeg,.png,.doc,.docx" multiple required>
-          </label>
-
-          <button class="btn-chip" type="submit">Send</button>
-        </form>
+        <!-- Contact form removed — submissions are handled via the drop-panel quick-quote form -->
       </div>
     </section>
   </main>
@@ -453,15 +434,20 @@
 
   <!-- Side Drop: Quick Quote -->
   <div id="drop-toggle" class="drop-toggle" aria-controls="drop-panel" aria-expanded="false" data-i18n="drop_toggle">Drop your document</div>
-  <aside id="drop-panel" class="drop-panel" aria-hidden="true" aria-label="Quick quote form">
+    <aside id="drop-panel" class="drop-panel" aria-hidden="true" aria-label="Quick quote form">
     <button type="button" class="drop-close" aria-label="Close">✕</button>
-    <form class="form" action="#" method="POST" enctype="multipart/form-data">
+    <form class="form" action="https://formsubmit.co/oxfordbah@gmail.com" method="POST" enctype="multipart/form-data">
+      <!-- FormSubmit options (moved here so only drop-panel submits) -->
+      <input type="hidden" name="_captcha" value="false">
+      <input type="hidden" name="_subject" value="New file from Oxford website">
+      <input type="hidden" name="_template" value="table">
+      <input type="hidden" name="_next" value="https://navazkhalid786-spec.github.io/oxfordP/?sent#thanks">
       <h3 style="margin:0 0 8px" data-i18n="drop_head">Quick Quote</h3>
       <input class="input" type="email" name="email" data-ph="drop_email" placeholder="Your email" required>
       <input class="input" type="tel" name="phone" data-ph="drop_phone" placeholder="Phone / WhatsApp (optional)">
       <label class="custom-file" style="position:relative">
         <span class="file-btn">Choose Files</span>
-        <input class="file file-input" type="file" name="file" accept=".pdf,.jpg,.jpeg,.png,.doc,.docx" multiple required>
+        <input class="file file-input" type="file" name="files" accept=".pdf,.jpg,.jpeg,.png,.doc,.docx" multiple required>
       </label>
       <button class="btn-chip" type="submit"><span data-i18n="drop_send">Send</span></button>
       <p class="hint" style="margin:8px 0 0" data-i18n="drop_hint">We reply with <b>quotes within hours</b>. Files kept confidential.</p>
