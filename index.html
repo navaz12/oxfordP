@@ -451,7 +451,7 @@
       </label>
       <button class="btn-chip" id="dropSendBtn" type="submit"><span data-i18n="drop_send">Send</span></button>
       <span id="dropFormStatus" style="margin-left:12px;color:#bdbdbd;font-weight:700;display:inline-block"></span>
-      <p class="hint" style="margin:8px 0 0" data-i18n="drop_hint">We reply with <b>quotes within hours</b>. Files kept confidential.</p>
+      <p id="dropHint" class="hint" style="margin:8px 0 0;color:#bdbdbd" data-i18n="drop_hint">We reply with <b>quotes within hours</b>. Files kept confidential.</p>
     </form>
   </aside>
 
@@ -634,7 +634,8 @@
     document.addEventListener('DOMContentLoaded', function(){
       try{
         const form = document.getElementById('dropForm');
-        const statusEl = document.getElementById('dropFormStatus');
+  const statusEl = document.getElementById('dropFormStatus');
+  const hintEl = document.getElementById('dropHint');
         const sendBtn = document.getElementById('dropSendBtn');
         const fileInput = document.getElementById('dropFiles');
 
@@ -655,7 +656,8 @@
               return;
             }
             if(sendBtn) { sendBtn.disabled = true; sendBtn.style.opacity = '0.7'; }
-            if(statusEl) { statusEl.style.color = '#bdbdbd'; statusEl.textContent = 'Sending...'; }
+            if(statusEl) { statusEl.style.color = '#bdbdbd'; statusEl.textContent = ''; }
+            if(hintEl){ hintEl.style.color = '#bdbdbd'; hintEl.textContent = 'Submitting...'; }
 
             const fd = new FormData(form);
 
@@ -666,8 +668,9 @@
               })
               .then(() => {
                 // Small inline confirmation near the form
-                if(statusEl){ statusEl.style.color = 'var(--accent)'; statusEl.textContent = 'Submitted ✓'; }
-                // Keep form inputs disabled to avoid duplicate submits
+                // Show final message in the hint area and keep inputs disabled
+                if(hintEl){ hintEl.style.color = 'var(--accent)'; hintEl.innerHTML = 'Submission completed — we will contact you asap.'; }
+                if(statusEl){ statusEl.textContent = ''; }
                 if(sendBtn){ sendBtn.disabled = true; }
                 if(fileInput){ fileInput.disabled = true; }
                 // Optionally close the panel after short delay (commented out)
@@ -675,7 +678,8 @@
               })
               .catch(err => {
                 // Show a concise error message inline
-                if(statusEl){ statusEl.style.color = '#ff6666'; statusEl.textContent = 'Submission failed — try again'; }
+                if(hintEl){ hintEl.style.color = '#ff6666'; hintEl.textContent = 'Submission failed — please try again.'; }
+                if(statusEl){ statusEl.textContent = ''; }
                 if(sendBtn){ sendBtn.disabled = false; sendBtn.style.opacity = '1'; }
                 console.error('FormSubmit AJAX error', err);
               });
