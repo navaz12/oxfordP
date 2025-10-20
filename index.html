@@ -52,8 +52,16 @@
     a{color:var(--accent); text-decoration:none}
     .container{max-width:1200px;margin:0 auto;padding:28px}
 
-    /* Header */
-    header.header{position:sticky;top:0;background:#000;border-bottom:1px solid var(--line);z-index:20}
+  /* Header */
+  header.header{position:sticky;top:0;background:#fff;border-bottom:1px solid rgba(0,0,0,0.08);z-index:20;color:#111}
+  /* Adjustments for white header so controls remain visible */
+  header.header .brand strong{color:#111}
+  header.header .brand img{filter:none}
+  header.header .btn-chip{background:transparent;color:#111;border:1px solid rgba(0,0,0,0.12)}
+  header.header .btn-chip:hover{background:var(--accent);color:#fff;border-color:var(--accent)}
+  header.header .flag{background:#fff;border:1px solid rgba(0,0,0,0.08);color:#111}
+  header.header .flag.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+  header.header .flag:hover{background:var(--accent);color:#fff;border-color:var(--accent)}
     .header-inner{display:flex;align-items:center;justify-content:space-between;gap:14px}
     .brand{display:flex;align-items:center;gap:12px}
     .brand img{height:46px;width:auto}
@@ -169,12 +177,6 @@
       border-color: #000;
     }
 
-    /* Social icon buttons (LinkedIn / Instagram / Facebook) */
-    .socials{display:flex;gap:10px;align-items:center}
-    .soc-btn{display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:50%;background:#111;border:1px solid rgba(255,255,255,0.06);color:#fff;transition:transform .15s ease,background .15s; text-decoration:none}
-    .soc-btn svg{width:20px;height:20px;display:block}
-    .soc-btn:hover{transform:translateY(-3px);background:var(--accent);color:#fff;border-color:var(--accent)}
-
     /* Sections */
     main .section{padding:42px 0}
     .section h2{font-size:28px;margin:0 0 14px;position:relative}
@@ -265,15 +267,6 @@
       background: #CE1126;
       color: #fff;
       border-color: #CE1126;
-    }
-    /* Footer layout */
-    .footer-row{display:flex;align-items:center;justify-content:space-between;gap:14px}
-    .footer-left{color:#c9c9c9;font-size:14px}
-    .footer-right{display:flex;align-items:center;gap:8px}
-    @media(max-width:640px){
-      .footer-row{flex-direction:column;align-items:center;text-align:center}
-      .footer-left{order:2;margin-top:10px}
-      .footer-right{order:1}
     }
   </style>
 </head>
@@ -399,7 +392,10 @@
             <b data-i18n="resp_label">Response</b>
             <span data-i18n="resp_val">Quotes within hours</span>
           </div>
-          <!-- quick contact buttons removed (icons moved to footer) -->
+          <!-- Added quick contact buttons below -->
+          <div style="margin-top:12px;display:flex;gap:10px;">
+            </a>
+          </div>
         </div>
         <div class="card">
           <div class="kpi">
@@ -416,52 +412,47 @@
             <b data-i18n="loc_label">Location</b>
             <span data-i18n="loc_val">Manama, Bahrain</span>
           </div>
-          <div class="kpi"> 
+          <div class="kpi">
             <b data-i18n="hrs_label">Hours</b>
             <span data-i18n="hrs_val">Sun–Thu, 9:00–18:00</span>
           </div>
         </div>
-        <!-- Use the drop-panel (right slide-out) for file uploads. The actual upload form is in the drop panel. -->
-        <div style="grid-column:1/-1; display:flex; gap:12px; align-items:center; flex-wrap:wrap;">
-          <p style="margin:0;color:var(--muted)">Use the "Drop your document" button on the right to attach files for a quick quote.</p>
-        </div>
+        <!-- Updated FormSubmit form as requested -->
+        <form action="https://formsubmit.co/oxfordbah@gmail.com"
+              method="POST"
+              enctype="multipart/form-data">
+
+          <!-- FormSubmit options -->
+          <input type="hidden" name="_captcha" value="false">
+          <input type="hidden" name="_subject" value="New file from Oxford website">
+          <input type="hidden" name="_template" value="table">
+          <input type="hidden" name="_next" value="https://navazkhalid786-spec.github.io/oxfordP/?sent#thanks">
+
+          <input class="input" type="email" name="email" placeholder="Your email" required>
+          <input class="input" type="tel" name="phone" placeholder="Phone / WhatsApp (optional)">
+          <input class="file" type="file" name="files" accept=".pdf,.jpg,.jpeg,.png,.doc,.docx" multiple required>
+
+          <button class="btn-chip" type="submit">Send</button>
+        </form>
       </div>
     </section>
   </main>
 
   <footer role="contentinfo">
-    <div class="container">
-      <div class="footer-row">
-        <div class="footer-left" data-i18n="footer">© Oxford Translation Center — Premium Translation & Business Consultancy</div>
-        <nav class="footer-right socials" aria-label="Social links">
-          <!-- Replace # with your real profile URLs -->
-          <a class="soc-btn" href="https://www.linkedin.com/in/oxfordbh" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
-            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4.98 3.5C4.98 4.88 3.88 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1 4.98 2.12 4.98 3.5zM0 24h5V7H0v17zM8 7h4.8v2.2h.1c.7-1.2 2.4-2.6 4.9-2.6C23.2 6.6 24 9.1 24 13.2V24h-5v-9.7c0-2.3 0-5.3-3.3-5.3-3.3 0-3.8 2.6-3.8 5.1V24H8V7z"/></svg>
-          </a>
-          <a class="soc-btn" href="https://www.instagram.com/oxford.bh?igsh=MWlxaDlnYzVuM2lo&utm_source=qr" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
-            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm0 2a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3H7zm5 3.5A5.5 5.5 0 1 1 6.5 13 5.5 5.5 0 0 1 12 7.5zm0 2A3.5 3.5 0 1 0 15.5 13 3.5 3.5 0 0 0 12 9.5zM18.5 6a1 1 0 1 1 1-1 1 1 0 0 1-1 1z"/></svg>
-          </a>
-          <a class="soc-btn" href="https://www.facebook.com/share/1BDQrKASYB/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
-            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M22 12a10 10 0 1 0-11.5 9.9v-7H7.9V12h2.6V9.7c0-2.6 1.6-4 4-4 1.2 0 2.4.2 2.4.2v2.7h-1.4c-1.4 0-1.8.9-1.8 1.8V12h3l-.5 3.9h-2.5v7A10 10 0 0 0 22 12z"/></svg>
-          </a>
-        </nav>
-      </div>
-    </div>
+    <div class="container" data-i18n="footer">© Oxford Translation Center — Premium Translation & Business Consultancy</div>
   </footer>
 
   <!-- Side Drop: Quick Quote -->
   <div id="drop-toggle" class="drop-toggle" aria-controls="drop-panel" aria-expanded="false" data-i18n="drop_toggle">Drop your document</div>
   <aside id="drop-panel" class="drop-panel" aria-hidden="true" aria-label="Quick quote form">
     <button type="button" class="drop-close" aria-label="Close">✕</button>
-    <form id="contact-form" class="form" action="https://formsubmit.co/ajax/oxfordbah@gmail.com" method="POST" enctype="multipart/form-data">
+    <form class="form" action="#" method="POST" enctype="multipart/form-data">
       <h3 style="margin:0 0 8px" data-i18n="drop_head">Quick Quote</h3>
-      <input class="input" id="cf-email" type="email" name="email" data-ph="drop_email" placeholder="Your email" required>
-      <input class="input" id="cf-phone" type="tel" name="phone" data-ph="drop_phone" placeholder="Phone / WhatsApp (optional)">
-      <textarea class="input" id="cf-message" name="message" placeholder="Message (optional)"></textarea>
-  <input class="file" id="cf-file" type="file" name="attachment" accept=".pdf,.doc,.docx,.ppt,.pptx,.jpg,.jpeg,.png" required>
-  <div id="cf-file-info" class="hint" style="margin:6px 0 0;color:var(--muted);font-size:13px"></div>
-      <button class="btn-chip" id="cf-submit" type="submit"><span data-i18n="drop_send">Send</span></button>
-      <p id="cf-status" class="hint" style="margin:8px 0 0" data-i18n="drop_hint">We reply with <b>quotes within hours</b>. Files kept confidential.</p>
+      <input class="input" type="email" name="email" data-ph="drop_email" placeholder="Your email" required>
+      <input class="input" type="tel" name="phone" data-ph="drop_phone" placeholder="Phone / WhatsApp (optional)">
+      <input class="file" type="file" name="file" accept=".pdf,.jpg,.jpeg,.png,.doc,.docx" multiple required>
+      <button class="btn-chip" type="submit"><span data-i18n="drop_send">Send</span></button>
+      <p class="hint" style="margin:8px 0 0" data-i18n="drop_hint">We reply with <b>quotes within hours</b>. Files kept confidential.</p>
     </form>
   </aside>
 
@@ -651,78 +642,6 @@
       };
       toggleBtn.addEventListener('click', toggle);
       close?.addEventListener('click', toggle);
-    })();
-
-    // AJAX submit for the contact form (FormSubmit)
-    (function(){
-      const form = document.getElementById('contact-form');
-      const status = document.getElementById('cf-status');
-      if(!form) return;
-      form.addEventListener('submit', async (e)=>{
-        e.preventDefault();
-        status.textContent = 'Sending...';
-        const submitBtn = document.getElementById('cf-submit');
-        submitBtn.disabled = true;
-        try{
-          // Client-side validation: file present, allowed type, within 4 MB
-          const fileEl = document.getElementById('cf-file');
-          const file = fileEl && fileEl.files && fileEl.files[0];
-          const MAX_BYTES = 4 * 1024 * 1024; // 4 MB
-          const allowedExt = ['pdf','doc','docx','ppt','pptx','jpg','jpeg','png'];
-          if(!file){
-            status.textContent = 'Please attach a file before sending.';
-            submitBtn.disabled = false;
-            return;
-          }
-          const ext = (file.name || '').split('.').pop().toLowerCase();
-          if(!allowedExt.includes(ext)){
-            status.textContent = 'File type not allowed. Allowed: PDF, Word (.doc/.docx), PowerPoint (.ppt/.pptx), JPG/PNG.';
-            submitBtn.disabled = false;
-            return;
-          }
-          if(file.size > MAX_BYTES){
-            status.textContent = 'File too large — maximum allowed size is 4 MB.';
-            submitBtn.disabled = false;
-            return;
-          }
-
-          const data = new FormData(form);
-          // Post to FormSubmit AJAX endpoint (action set on the form)
-          const res = await fetch(form.action, { method: form.method || 'POST', body: data, headers: { 'Accept': 'application/json' } });
-          if(res.ok){
-            const json = await res.json().catch(()=>null);
-            // FormSubmit returns a JSON success object for AJAX requests
-            status.textContent = (json && json.message) ? json.message : 'Thanks — we received your file. We will reply with a quote soon.';
-            form.reset();
-            // clear file info display
-            const info = document.getElementById('cf-file-info'); if(info) info.textContent = '';
-          } else {
-            const json = await res.json().catch(()=>({}));
-            // Try to surface helpful FormSubmit messages when available
-            const errMsg = (json && (json.message || (json.errors && json.errors.join(', ')))) || '';
-            if(errMsg) status.textContent = errMsg;
-            else status.textContent = 'Submission failed — please try again later.';
-            console.warn('FormSubmit error response:', json || res.status);
-          }
-        }catch(err){
-          console.error('Network error while sending form:', err);
-          status.textContent = 'Network error — please try again.';
-        }finally{
-          submitBtn.disabled = false;
-          setTimeout(()=> status.textContent = '', 6000);
-        }
-      });
-      // Show selected file info (name + size)
-      const fileInput = document.getElementById('cf-file');
-      const fileInfo = document.getElementById('cf-file-info');
-      if(fileInput && fileInfo){
-        fileInput.addEventListener('change', ()=>{
-          const f = fileInput.files && fileInput.files[0];
-          if(!f){ fileInfo.textContent = ''; return; }
-          const mb = (f.size / (1024*1024));
-          fileInfo.textContent = `${f.name} — ${mb.toFixed(2)} MB (max 4 MB)`;
-        });
-      }
     })();
   </script>
 </body>
