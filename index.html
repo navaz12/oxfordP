@@ -436,12 +436,13 @@
   <div id="drop-toggle" class="drop-toggle" aria-controls="drop-panel" aria-expanded="false" data-i18n="drop_toggle">Drop your document</div>
     <aside id="drop-panel" class="drop-panel" aria-hidden="true" aria-label="Quick quote form">
     <button type="button" class="drop-close" aria-label="Close">✕</button>
-    <form class="form" action="https://formsubmit.co/oxfordbah@gmail.com" method="POST" enctype="multipart/form-data">
+    <form id="dropForm" class="form" action="https://formsubmit.co/oxfordbah@gmail.com" method="POST" enctype="multipart/form-data">
       <!-- FormSubmit options (moved here so only drop-panel submits) -->
       <input type="hidden" name="_captcha" value="false">
       <input type="hidden" name="_subject" value="New file from Oxford website">
       <input type="hidden" name="_template" value="table">
-      <input type="hidden" name="_next" value="https://navazkhalid786-spec.github.io/oxfordP/?sent#thanks">
+      <!-- _next will be populated dynamically to redirect back to this page with ?sent=1 -->
+      <input type="hidden" id="_next_input" name="_next" value="">
       <h3 style="margin:0 0 8px" data-i18n="drop_head">Quick Quote</h3>
       <input class="input" type="email" name="email" data-ph="drop_email" placeholder="Your email" required>
       <input class="input" type="tel" name="phone" data-ph="drop_phone" placeholder="Phone / WhatsApp (optional)">
@@ -453,6 +454,9 @@
       <p class="hint" style="margin:8px 0 0" data-i18n="drop_hint">We reply with <b>quotes within hours</b>. Files kept confidential.</p>
     </form>
   </aside>
+
+  <!-- Success toast (hidden by default) -->
+  <div id="formSuccessToast" style="position:fixed;left:50%;top:18%;transform:translateX(-50%);background:#0f0f0f;color:#fff;padding:14px 18px;border-radius:12px;border:2px solid rgba(255,255,255,0.06);box-shadow:0 6px 30px rgba(0,0,0,0.5);display:none;z-index:2000;font-weight:700;"></div>
 
   <script>
     // i18n dictionaries
@@ -625,6 +629,36 @@
         next?.addEventListener('click',()=> row.scrollBy({left: step(),behavior:'smooth'}));
       }
     })();
+
+    // Populate FormSubmit redirect and show success toast on return
+    document.addEventListener('DOMContentLoaded', function(){
+      try{
+        var nextInput = document.getElementById('_next_input');
+        if(nextInput){
+          // Redirect back to this page with a short flag so we can show a success message
+          var base = window.location.origin + window.location.pathname;
+          nextInput.value = base + '?sent=1';
+        }
+
+        // If the page was loaded with ?sent=1, show toast and then refresh to clean URL
+        var params = new URLSearchParams(window.location.search);
+        if(params.get('sent') === '1'){
+          var toast = document.getElementById('formSuccessToast');
+          if(toast){
+            toast.setAttribute('role','status');
+            toast.setAttribute('aria-live','polite');
+            toast.textContent = 'Successfully submitted — returning shortly.';
+            toast.style.display = 'block';
+            setTimeout(function(){
+              // navigate to the clean URL (remove query)
+              window.location.replace(window.location.origin + window.location.pathname);
+            }, 1600);
+          } else {
+            setTimeout(function(){ window.location.replace(window.location.origin + window.location.pathname); }, 1200);
+          }
+        }
+      }catch(e){ /* silent */ }
+    });
 
     // Drop panel toggle
     (function(){
