@@ -65,6 +65,8 @@
     .header-inner{display:flex;align-items:center;justify-content:space-between;gap:14px}
     .brand{display:flex;align-items:center;gap:12px}
     .brand img{height:46px;width:auto}
+  /* Make the brand title a bit larger and use Palatino if available */
+  .brand strong{ font-family: "Palatino Linotype", "Palatino", "Palatino LT STD", "Times New Roman", serif; font-weight:700; font-size:clamp(18px,2.2vw,22px); color:#111; }
     nav.flags{display:flex;gap:8px}
     .flag{height:28px;min-width:42px;border-radius:6px;background:#fff;border:1px solid #fff;cursor:pointer;padding:2px 8px}
     .flag.active{background:var(--accent);color:#fff;border-color:var(--accent)}
@@ -214,7 +216,14 @@
     .kpi{display:flex;gap:10px;align-items:center}
     .kpi b{min-width:96px;display:inline-block}
 
-    footer{padding:30px 0;border-top:1px solid #1f1f1f;color:#c9c9c9;text-align:center;margin-top:24px}
+  footer{padding:30px 0;border-top:1px solid #1f1f1f;color:#c9c9c9;text-align:center;margin-top:24px}
+  /* Footer layout and social icon styles */
+  .footer-inner{display:flex;align-items:center;justify-content:space-between;gap:18px}
+  @media(max-width:600px){ .footer-inner{flex-direction:column;align-items:center;text-align:center} }
+  .socials{display:flex;gap:12px;align-items:center}
+  .social-link{color:#bdbdbd;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:8px;border:1px solid rgba(255,255,255,0.03);transition:color .18s ease,transform .12s ease,background .12s ease,border-color .12s ease}
+  .social-link:hover{color:var(--accent);transform:translateY(-3px);border-color:var(--accent);background:rgba(206,17,38,0.04)}
+  .social-icon{width:20px;height:20px}
     .drop-toggle{position:fixed;right:0;top:40%;transform:translateY(-50%);padding:14px 18px;border-radius:12px 0 0 12px;background:#ffffff;color:#000;font-weight:800;border:1px solid var(--line);border-right:none;cursor:pointer;z-index:1000;writing-mode:vertical-rl;text-orientation:mixed;user-select:none;box-shadow:-4px 4px 16px rgba(0,0,0,.25)}
     .drop-panel{position:fixed;right:0;top:0;height:100%;width:420px;max-width:92vw;background:#0f0f0f;border-left:1px solid var(--line);box-shadow:-12px 0 28px rgba(0,0,0,.45);padding:24px 22px 26px;z-index:999;transform:translateX(100%);transition:transform .35s ease}
     .drop-panel[aria-hidden="false"]{transform:none}
@@ -430,13 +439,12 @@
 
   <footer role="contentinfo">
     <div class="container">
-      <div class="footer-row" style="display:flex;flex-direction:column;gap:14px;align-items:center;">
-        <div data-i18n="footer">© Oxford Translation Center — Premium Translation & Business Consultancy</div>
-        <div style="width:100%;height:1px;background:rgba(255,255,255,0.04);border-radius:2px;margin-top:6px"></div>
-        <div class="socials" aria-label="Social links" style="display:flex;gap:12px;align-items:center;">
+      <div class="footer-inner">
+        <div class="footer-copy" data-i18n="footer">© Oxford Translation Center — Premium Translation & Business Consultancy</div>
+        <div class="socials" aria-label="Social links">
           <a class="social-link" href="https://www.instagram.com/oxford.bh?igsh=MWlxaDlnYzVuM2lo&utm_source=qr" target="_blank" rel="noopener" aria-label="Instagram">
             <!-- Instagram SVG -->
-            <svg class="social-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <svg class="social-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
               <rect x="2" y="2" width="20" height="20" rx="5" stroke="currentColor" stroke-width="1.4"/>
               <path d="M16 11.99a3 3 0 11-6 0 3 3 0 016 0z" stroke="currentColor" stroke-width="1.4"/>
               <circle cx="17.5" cy="6.5" r="0.8" fill="currentColor"/>
@@ -444,13 +452,13 @@
           </a>
           <a class="social-link" href="https://www.facebook.com/share/1BDQrKASYB/?mibextid=wwXIfr" target="_blank" rel="noopener" aria-label="Facebook">
             <!-- Facebook SVG -->
-            <svg class="social-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <svg class="social-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
               <path d="M18 2h-3a4 4 0 00-4 4v3H8v4h3v8h4v-8h3l1-4h-4V6a1 1 0 011-1h2V2z" stroke="currentColor" stroke-width="1.2" fill="none"/>
             </svg>
           </a>
           <a class="social-link" href="https://www.linkedin.com/in/oxfordbh" target="_blank" rel="noopener" aria-label="LinkedIn">
             <!-- LinkedIn SVG -->
-            <svg class="social-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <svg class="social-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
               <rect x="2" y="2" width="20" height="20" rx="2" stroke="currentColor" stroke-width="1.2" fill="none"/>
               <path d="M7.5 10.5v7" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
               <path d="M7.5 8.5a1 1 0 110-2 1 1 0 010 2z" stroke="currentColor" stroke-width="1.4"/>
