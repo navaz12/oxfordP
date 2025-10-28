@@ -52,11 +52,21 @@
     a{color:var(--accent); text-decoration:none}
     .container{max-width:1200px;margin:0 auto;padding:28px}
 
-    /* Header */
-    header.header{position:sticky;top:0;background:#000;border-bottom:1px solid var(--line);z-index:20}
+  /* Header */
+  header.header{position:sticky;top:0;background:#fff;border-bottom:1px solid rgba(0,0,0,0.08);z-index:20;color:#111}
+  /* Adjustments for white header so controls remain visible */
+  header.header .brand strong{color:#111}
+  header.header .brand img{filter:none}
+  header.header .btn-chip{background:transparent;color:#111;border:1px solid rgba(0,0,0,0.12)}
+  header.header .btn-chip:hover{background:var(--accent);color:#fff;border-color:var(--accent)}
+  header.header .flag{background:#fff;border:1px solid rgba(0,0,0,0.08);color:#111}
+  header.header .flag.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+  header.header .flag:hover{background:var(--accent);color:#fff;border-color:var(--accent)}
     .header-inner{display:flex;align-items:center;justify-content:space-between;gap:14px}
     .brand{display:flex;align-items:center;gap:12px}
     .brand img{height:46px;width:auto}
+  /* Make the brand title a bit larger and use Palatino if available */
+  .brand strong{ font-family: "Palatino Linotype", "Palatino", "Palatino LT STD", "Times New Roman", serif; font-weight:700; font-size:clamp(18px,2.2vw,22px); color:#111; }
     nav.flags{display:flex;gap:8px}
     .flag{height:28px;min-width:42px;border-radius:6px;background:#fff;border:1px solid #fff;cursor:pointer;padding:2px 8px}
     .flag.active{background:var(--accent);color:#fff;border-color:var(--accent)}
@@ -169,12 +179,6 @@
       border-color: #000;
     }
 
-    /* Social icon buttons (LinkedIn / Instagram / Facebook) */
-    .socials{display:flex;gap:10px;align-items:center}
-    .soc-btn{display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:50%;background:#111;border:1px solid rgba(255,255,255,0.06);color:#fff;transition:transform .15s ease,background .15s; text-decoration:none}
-    .soc-btn svg{width:20px;height:20px;display:block}
-    .soc-btn:hover{transform:translateY(-3px);background:var(--accent);color:#fff;border-color:var(--accent)}
-
     /* Sections */
     main .section{padding:42px 0}
     .section h2{font-size:28px;margin:0 0 14px;position:relative}
@@ -212,7 +216,14 @@
     .kpi{display:flex;gap:10px;align-items:center}
     .kpi b{min-width:96px;display:inline-block}
 
-    footer{padding:30px 0;border-top:1px solid #1f1f1f;color:#c9c9c9;text-align:center;margin-top:24px}
+  footer{padding:30px 0;border-top:1px solid #1f1f1f;color:#c9c9c9;text-align:center;margin-top:24px}
+  /* Footer layout and social icon styles */
+  .footer-inner{display:flex;align-items:center;justify-content:space-between;gap:18px}
+  @media(max-width:600px){ .footer-inner{flex-direction:column;align-items:center;text-align:center} }
+  .socials{display:flex;gap:12px;align-items:center}
+  .social-link{color:#bdbdbd;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:8px;border:1px solid rgba(255,255,255,0.03);transition:color .18s ease,transform .12s ease,background .12s ease,border-color .12s ease}
+  .social-link:hover{color:var(--accent);transform:translateY(-3px);border-color:var(--accent);background:rgba(206,17,38,0.04)}
+  .social-icon{width:20px;height:20px}
     .drop-toggle{position:fixed;right:0;top:40%;transform:translateY(-50%);padding:14px 18px;border-radius:12px 0 0 12px;background:#ffffff;color:#000;font-weight:800;border:1px solid var(--line);border-right:none;cursor:pointer;z-index:1000;writing-mode:vertical-rl;text-orientation:mixed;user-select:none;box-shadow:-4px 4px 16px rgba(0,0,0,.25)}
     .drop-panel{position:fixed;right:0;top:0;height:100%;width:420px;max-width:92vw;background:#0f0f0f;border-left:1px solid var(--line);box-shadow:-12px 0 28px rgba(0,0,0,.45);padding:24px 22px 26px;z-index:999;transform:translateX(100%);transition:transform .35s ease}
     .drop-panel[aria-hidden="false"]{transform:none}
@@ -220,6 +231,12 @@
     .drop-panel .form{display:flex;flex-direction:column;gap:14px;margin-top:8px}
     .drop-panel .input{background:#0b0b0b;border:1px solid #2a2a2a;border-radius:12px;padding:14px 12px;color:#fff;font-size:15px}
     .drop-panel .file{background:#0b0b0b;border:1px solid #2a2a2a;border-radius:12px;padding:10px 12px;color:#fff;font-size:15px}
+  /* Custom file input: hide native filename text and show a clean button */
+  .custom-file{display:inline-flex;align-items:center;gap:12px}
+  .custom-file .file-btn{background:#fff;color:#000;padding:8px 12px;border-radius:12px;font-weight:700;border:1px solid rgba(0,0,0,0.06);cursor:pointer}
+  .custom-file .file-input{position:absolute!important;opacity:0!important;pointer-events:auto;left:0;top:0;width:100%;height:100%}
+  /* Ensure any existing .file class doesn't display its default UI */
+  input[type="file"].file{color:transparent}
     .drop-panel .btn-chip{width:100%;padding:13px 16px;border-radius:12px;background:#CE1126;color:#fff;border:none;font-weight:800;letter-spacing:.2px}
     .drop-panel .hint{color:#bdbdbd;font-size:14px;line-height:1.5}
 
@@ -265,15 +282,6 @@
       background: #CE1126;
       color: #fff;
       border-color: #CE1126;
-    }
-    /* Footer layout */
-    .footer-row{display:flex;align-items:center;justify-content:space-between;gap:14px}
-    .footer-left{color:#c9c9c9;font-size:14px}
-    .footer-right{display:flex;align-items:center;gap:8px}
-    @media(max-width:640px){
-      .footer-row{flex-direction:column;align-items:center;text-align:center}
-      .footer-left{order:2;margin-top:10px}
-      .footer-right{order:1}
     }
   </style>
 </head>
@@ -400,7 +408,10 @@
             <b data-i18n="resp_label">Response</b>
             <span data-i18n="resp_val">Quotes within hours</span>
           </div>
-          <!-- quick contact buttons removed (icons moved to footer) -->
+          <!-- Added quick contact buttons below -->
+          <div style="margin-top:12px;display:flex;gap:10px;">
+            </a>
+          </div>
         </div>
         <div class="card">
           <div class="kpi">
@@ -417,54 +428,74 @@
             <b data-i18n="loc_label">Location</b>
             <span data-i18n="loc_val">Manama, Bahrain</span>
           </div>
-          <div class="kpi"> 
+          <div class="kpi">
             <b data-i18n="hrs_label">Hours</b>
             <span data-i18n="hrs_val">Sun–Thu, 9:00–18:00</span>
           </div>
         </div>
-        <!-- Use the drop-panel (right slide-out) for file uploads. The actual upload form is in the drop panel. -->
-        <div style="grid-column:1/-1; display:flex; gap:12px; align-items:center; flex-wrap:wrap;">
-          <p style="margin:0;color:var(--muted)">Use the "Drop your document" button on the right to attach files for a quick quote.</p>
-        </div>
+        <!-- Contact form removed — submissions are handled via the drop-panel quick-quote form -->
       </div>
     </section>
   </main>
 
   <footer role="contentinfo">
     <div class="container">
-      <div class="footer-row">
-        <div class="footer-left" data-i18n="footer">© Oxford Translation Center — Premium Translation & Business Consultancy</div>
-        <nav class="footer-right socials" aria-label="Social links">
-          <!-- Replace # with your real profile URLs -->
-          <a class="soc-btn" href="https://www.linkedin.com/in/oxfordbh" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
-            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4.98 3.5C4.98 4.88 3.88 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1 4.98 2.12 4.98 3.5zM0 24h5V7H0v17zM8 7h4.8v2.2h.1c.7-1.2 2.4-2.6 4.9-2.6C23.2 6.6 24 9.1 24 13.2V24h-5v-9.7c0-2.3 0-5.3-3.3-5.3-3.3 0-3.8 2.6-3.8 5.1V24H8V7z"/></svg>
+      <div class="footer-inner">
+        <div class="footer-copy" data-i18n="footer">© Oxford Translation Center — Premium Translation & Business Consultancy</div>
+        <div class="socials" aria-label="Social links">
+          <a class="social-link" href="https://www.instagram.com/oxford.bh?igsh=MWlxaDlnYzVuM2lo&utm_source=qr" target="_blank" rel="noopener" aria-label="Instagram">
+            <!-- Instagram SVG -->
+            <svg class="social-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <rect x="2" y="2" width="20" height="20" rx="5" stroke="currentColor" stroke-width="1.4"/>
+              <path d="M16 11.99a3 3 0 11-6 0 3 3 0 016 0z" stroke="currentColor" stroke-width="1.4"/>
+              <circle cx="17.5" cy="6.5" r="0.8" fill="currentColor"/>
+            </svg>
           </a>
-          <a class="soc-btn" href="https://www.instagram.com/oxford.bh?igsh=MWlxaDlnYzVuM2lo&utm_source=qr" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
-            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm0 2a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3H7zm5 3.5A5.5 5.5 0 1 1 6.5 13 5.5 5.5 0 0 1 12 7.5zm0 2A3.5 3.5 0 1 0 15.5 13 3.5 3.5 0 0 0 12 9.5zM18.5 6a1 1 0 1 1 1-1 1 1 0 0 1-1 1z"/></svg>
+          <a class="social-link" href="https://www.facebook.com/share/1BDQrKASYB/?mibextid=wwXIfr" target="_blank" rel="noopener" aria-label="Facebook">
+            <!-- Facebook SVG -->
+            <svg class="social-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M18 2h-3a4 4 0 00-4 4v3H8v4h3v8h4v-8h3l1-4h-4V6a1 1 0 011-1h2V2z" stroke="currentColor" stroke-width="1.2" fill="none"/>
+            </svg>
           </a>
-          <a class="soc-btn" href="https://www.facebook.com/share/1BDQrKASYB/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
-            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M22 12a10 10 0 1 0-11.5 9.9v-7H7.9V12h2.6V9.7c0-2.6 1.6-4 4-4 1.2 0 2.4.2 2.4.2v2.7h-1.4c-1.4 0-1.8.9-1.8 1.8V12h3l-.5 3.9h-2.5v7A10 10 0 0 0 22 12z"/></svg>
+          <a class="social-link" href="https://www.linkedin.com/in/oxfordbh" target="_blank" rel="noopener" aria-label="LinkedIn">
+            <!-- LinkedIn SVG -->
+            <svg class="social-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <rect x="2" y="2" width="20" height="20" rx="2" stroke="currentColor" stroke-width="1.2" fill="none"/>
+              <path d="M7.5 10.5v7" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+              <path d="M7.5 8.5a1 1 0 110-2 1 1 0 010 2z" stroke="currentColor" stroke-width="1.4"/>
+              <path d="M12.5 10.5v1.6c0 .9 0 5.4 5 5.4v-6.2c0-3.4-1.8-4.8-4.2-4.8-1.6 0-2.8.9-3.8 1.8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+            </svg>
           </a>
-        </nav>
+        </div>
       </div>
     </div>
   </footer>
 
   <!-- Side Drop: Quick Quote -->
   <div id="drop-toggle" class="drop-toggle" aria-controls="drop-panel" aria-expanded="false" data-i18n="drop_toggle">Drop your document</div>
-  <aside id="drop-panel" class="drop-panel" aria-hidden="true" aria-label="Quick quote form">
+    <aside id="drop-panel" class="drop-panel" aria-hidden="true" aria-label="Quick quote form">
     <button type="button" class="drop-close" aria-label="Close">✕</button>
-    <form id="contact-form" class="form" action="https://formsubmit.co/ajax/oxfordbah@gmail.com" method="POST" enctype="multipart/form-data">
+    <!-- Use FormSubmit AJAX endpoint so we can handle submission client-side and avoid redirects -->
+    <form id="dropForm" class="form" action="https://formsubmit.co/ajax/oxfordbah@gmail.com" method="POST" enctype="multipart/form-data">
+      <!-- FormSubmit options (moved here so only drop-panel submits) -->
+      <input type="hidden" name="_captcha" value="false">
+      <input type="hidden" name="_subject" value="New file from Oxford website">
+      <input type="hidden" name="_template" value="table">
       <h3 style="margin:0 0 8px" data-i18n="drop_head">Quick Quote</h3>
-      <input class="input" id="cf-email" type="email" name="email" data-ph="drop_email" placeholder="Your email" required>
-      <input class="input" id="cf-phone" type="tel" name="phone" data-ph="drop_phone" placeholder="Phone / WhatsApp (optional)">
-      <textarea class="input" id="cf-message" name="message" placeholder="Message (optional)"></textarea>
-  <input class="file" id="cf-file" type="file" name="attachment" accept=".pdf,.doc,.docx,.ppt,.pptx,.jpg,.jpeg,.png" required>
-  <div id="cf-file-info" class="hint" style="margin:6px 0 0;color:var(--muted);font-size:13px"></div>
-      <button class="btn-chip" id="cf-submit" type="submit"><span data-i18n="drop_send">Send</span></button>
-      <p id="cf-status" class="hint" style="margin:8px 0 0" data-i18n="drop_hint">We reply with <b>quotes within hours</b>. Files kept confidential.</p>
+      <input class="input" type="email" name="email" data-ph="drop_email" placeholder="Your email" required>
+      <input class="input" type="tel" name="phone" data-ph="drop_phone" placeholder="Phone / WhatsApp (optional)">
+      <label class="custom-file" style="position:relative">
+        <span class="file-btn">Choose Files</span>
+        <input class="file file-input" id="dropFiles" type="file" name="files" accept=".pdf,.jpg,.jpeg,.png,.doc,.docx" multiple required>
+      </label>
+      <button class="btn-chip" id="dropSendBtn" type="submit"><span data-i18n="drop_send">Send</span></button>
+      <span id="dropFormStatus" style="margin-left:12px;color:#bdbdbd;font-weight:700;display:inline-block"></span>
+      <p id="dropHint" class="hint" style="margin:8px 0 0;color:#bdbdbd" data-i18n="drop_hint">We reply with <b>quotes within hours</b>. Files kept confidential.</p>
     </form>
   </aside>
+
+  <!-- Success toast (hidden by default) -->
+  <div id="formSuccessToast" style="position:fixed;left:50%;top:18%;transform:translateX(-50%);background:#0f0f0f;color:#fff;padding:14px 18px;border-radius:12px;border:2px solid rgba(255,255,255,0.06);box-shadow:0 6px 30px rgba(0,0,0,0.5);display:none;z-index:2000;font-weight:700;"></div>
 
   <script>
     // i18n dictionaries
@@ -511,47 +542,6 @@
         drop_toggle:"Drop your document", drop_head:"Quick Quote",
         drop_email:"Your email", drop_phone:"Phone / WhatsApp (optional)",
         drop_send:"Send", drop_hint:"We reply with <b>quotes within hours</b>. Files kept confidential."
-      },
-      es: {
-        brand:"Centro de Traducción Oxford",
-        hero_title:"Traducciones Certificadas Premium",
-        hero_sub:"Traducción legal, comercial y técnica — además de consultoría empresarial de alto nivel para Baréin y el CCG.",
-        badge1:"Precisión válida en tribunales", badge2:"Entrega rápida", badge3:"Confidencialidad 100%",
-        services_head:"Qué ofrecemos",
-        svc1_title:"Traducción Certificada y Atestación",
-        svc1_p:"Ofrecemos traducciones certificadas aceptadas por tribunales para particulares y organizaciones, garantizando precisión, confidencialidad y aceptación por las autoridades oficiales.",
-        svc1_ind_title:"Para particulares",
-        svc1_ind1:"Traducciones certificadas y notarizadas de certificados (nacimiento, matrimonio, estudios, médicos).",
-        svc1_ind2:"Atestación por embajadas y Ministerio de Asuntos Exteriores para documentos personales y educativos.",
-        svc1_ind3:"Corrección y edición de declaraciones personales, solicitudes y declaraciones juradas.",
-        svc1_ind4:"Plazos rápidos para presentaciones urgentes a embajadas, ministerios y tribunales.",
-        svc1_corp_title:"Para empresas",
-        svc1_corp1:"Traducción de contratos, acuerdos de accionistas y NDAs.",
-        svc1_corp2:"Documentos de gobernanza corporativa (estatutos, resoluciones del consejo, registros).",
-        svc1_corp3:"Informes financieros y de auditoría, cuentas anuales y declaraciones fiscales.",
-        svc1_corp4:"Manuales de RRHH, políticas y contratos laborales.",
-        svc1_corp5:"Traducciones específicas por industria (petróleo y gas, salud, TI, ingeniería).",
-        svc1_corp6:"Atestaciones de embajadas, cámaras y MAE para contratos e inscripciones corporativas.",
-        svc1_langs:"🌍 Disponible en árabe, inglés, francés, alemán, ruso, hindi, chino — y más de 50 idiomas. — confiable para tribunales, embajadas y reguladores en el GCC.",
-        consult_head:"Consultoría Empresarial",
-        consult_intro:"Asesoría de alto nivel para particulares, pymes y corporaciones que buscan expansión y cumplimiento en Baréin y el GCC.",
-        consult_li1:"Entrada al mercado y estructuración de entidades (WLL, sucursales, sociedades holding).",
-        consult_li2:"Cumplimiento regulatorio y gobernanza (MOIC, LMRA, NPRA, IVA).",
-        consult_li3:"Estructuración de capital, eficiencia fiscal y estrategias de expansión en el GCC.",
-        consult_li4:"Secretaría corporativa, atestaciones y validación internacional.",
-        reviews_head:"Opiniones de clientes", reviews_cta:"Ver todo en Google",
-        rev1:"Personal muy profesional… me ayudaron a resolver todo lo antes posible. ¡Gracias!",
-        rev2:"Trabajo urgente de más de 50 páginas. Oxford superó las expectativas y entregó antes de la fecha. Rápido, eficiente y rentable.",
-        rev3:"Gran equipo. Respuesta rápida y fácil comunicación.",
-        rev4:"Servicio excelente.",
-        ago_7m:"hace 7 meses", ago_4y:"hace 4 años", ago_2y:"hace 2 años", ago_1y:"hace 1 año",
-        contact_head:"Contacto", whatsapp_label:"WhatsApp", phone_label:"Teléfono", email_label:"Correo electrónico",
-        loc_label:"Ubicación", loc_val:"Manama, Baréin", hrs_label:"Horario", hrs_val:"Dom–Jue, 9:00–18:00",
-        resp_label:"Respuesta", resp_val:"Presupuestos en horas",
-        footer:"© Centro de Traducción Oxford — Traducción Premium & Consultoría Empresarial",
-        drop_toggle:"Envía tu documento", drop_head:"Presupuesto rápido",
-        drop_email:"Tu correo", drop_phone:"Teléfono / WhatsApp (opcional)",
-        drop_send:"Enviar", drop_hint:"Respondemos con <b>presupuestos en pocas horas</b>. Archivos confidenciales."
       },
       ar: {
         brand:"مركز أوكسفورد للترجمة",
@@ -634,6 +624,47 @@
         drop_toggle:"Déposez votre document", drop_head:"Devis rapide",
         drop_email:"Votre e‑mail", drop_phone:"Téléphone / WhatsApp (optionnel)",
         drop_send:"Envoyer", drop_hint:"Réponse avec <b>devis sous quelques heures</b>. Fichiers confidentiels."
+      },
+      es: {
+        brand:"Centro de Traducción Oxford",
+        hero_title:"Traducciones Certificadas Premium",
+        hero_sub:"Traducción legal, comercial y técnica — además de consultoría empresarial de alto nivel para Baréin y el CCG.",
+        badge1:"Precisión válida en tribunales", badge2:"Entrega rápida", badge3:"Confidencialidad 100%",
+        services_head:"Qué ofrecemos",
+        svc1_title:"Traducción Certificada y Atestación",
+        svc1_p:"Ofrecemos traducciones certificadas aceptadas por tribunales para particulares y organizaciones, garantizando precisión, confidencialidad y aceptación por las autoridades oficiales.",
+        svc1_ind_title:"Para particulares",
+        svc1_ind1:"Traducciones certificadas y notarizadas de certificados (nacimiento, matrimonio, estudios, médicos).",
+        svc1_ind2:"Atestación por embajadas y Ministerio de Asuntos Exteriores para documentos personales y educativos.",
+        svc1_ind3:"Corrección y edición de declaraciones personales, solicitudes y declaraciones juradas.",
+        svc1_ind4:"Plazos rápidos para presentaciones urgentes a embajadas, ministerios y tribunales.",
+        svc1_corp_title:"Para empresas",
+        svc1_corp1:"Traducción de contratos, acuerdos de accionistas y NDAs.",
+        svc1_corp2:"Documentos de gobernanza corporativa (estatutos, resoluciones del consejo, registros).",
+        svc1_corp3:"Informes financieros y de auditoría, cuentas anuales y declaraciones fiscales.",
+        svc1_corp4:"Manuales de RRHH, políticas y contratos laborales.",
+        svc1_corp5:"Traducciones específicas por industria (petróleo y gas, salud, TI, ingeniería).",
+        svc1_corp6:"Atestaciones de embajadas, cámaras y MAE para contratos e inscripciones corporativas.",
+        svc1_langs:"🌍 Disponible en árabe, inglés, francés, alemán, ruso, hindi, chino — y más de 50 idiomas. — confiable para tribunales, embajadas y reguladores en el GCC.",
+        consult_head:"Consultoría Empresarial",
+        consult_intro:"Asesoría de alto nivel para particulares, pymes y corporaciones que buscan expansión y cumplimiento en Baréin y el GCC.",
+        consult_li1:"Entrada al mercado y estructuración de entidades (WLL, sucursales, sociedades holding).",
+        consult_li2:"Cumplimiento regulatorio y gobernanza (MOIC, LMRA, NPRA, IVA).",
+        consult_li3:"Estructuración de capital, eficiencia fiscal y estrategias de expansión en el GCC.",
+        consult_li4:"Secretaría corporativa, atestaciones y validación internacional.",
+        reviews_head:"Opiniones de clientes", reviews_cta:"Ver todo en Google",
+        rev1:"Personal muy profesional… me ayudaron a resolver todo lo antes posible. ¡Gracias!",
+        rev2:"Trabajo urgente de más de 50 páginas. Oxford superó las expectativas y entregó antes de la fecha. Rápido, eficiente y rentable.",
+        rev3:"Gran equipo. Respuesta rápida y fácil comunicación.",
+        rev4:"Servicio excelente.",
+        ago_7m:"hace 7 meses", ago_4y:"hace 4 años", ago_2y:"hace 2 años", ago_1y:"hace 1 año",
+        contact_head:"Contacto", whatsapp_label:"WhatsApp", phone_label:"Teléfono", email_label:"Correo electrónico",
+        loc_label:"Ubicación", loc_val:"Manama, Baréin", hrs_label:"Horario", hrs_val:"Dom–Jue, 9:00–18:00",
+        resp_label:"Respuesta", resp_val:"Presupuestos en horas",
+        footer:"© Centro de Traducción Oxford — Traducción Premium & Consultoría Empresarial",
+        drop_toggle:"Envía tu documento", drop_head:"Presupuesto rápido",
+        drop_email:"Tu correo", drop_phone:"Teléfono / WhatsApp (opcional)",
+        drop_send:"Enviar", drop_hint:"Respondemos con <b>presupuestos en pocas horas</b>. Archivos confidenciales."
       }
     };
 
@@ -679,6 +710,95 @@
       }
     })();
 
+    // Handle drop-panel form with AJAX so user stays on the page and sees inline feedback
+    document.addEventListener('DOMContentLoaded', function(){
+      try{
+        const form = document.getElementById('dropForm');
+  const statusEl = document.getElementById('dropFormStatus');
+  const hintEl = document.getElementById('dropHint');
+  const sendBtn = document.getElementById('dropSendBtn');
+  const fileInput = document.getElementById('dropFiles');
+  // Preserve the initial hint so we can restore it after reset
+  const initialHint = hintEl ? hintEl.innerHTML : '';
+
+        // Show selected file count (small) next to the button
+        function updateFileLabel(){
+          if(!statusEl) return;
+          const n = fileInput && fileInput.files ? fileInput.files.length : 0;
+          statusEl.textContent = n ? (n + (n===1 ? ' file selected' : ' files selected')) : '';
+        }
+        if(fileInput) fileInput.addEventListener('change', updateFileLabel);
+        updateFileLabel();
+
+        if(form){
+          form.addEventListener('submit', function(ev){
+            ev.preventDefault();
+            if(!form.checkValidity()){
+              form.reportValidity();
+              return;
+            }
+            if(sendBtn) { sendBtn.disabled = true; sendBtn.style.opacity = '0.7'; }
+            if(statusEl) { statusEl.style.color = '#bdbdbd'; statusEl.textContent = ''; }
+            if(hintEl){ hintEl.style.color = '#bdbdbd'; hintEl.textContent = 'Submitting...'; }
+
+            const fd = new FormData(form);
+
+            fetch(form.action, { method: 'POST', body: fd, headers: { 'Accept': 'application/json' } })
+              .then(resp => {
+                if(!resp.ok) throw resp;
+                return resp.json().catch(()=>({ok:true}));
+              })
+              .then(() => {
+                // Small inline confirmation near the form
+                // Show final message in the hint area and keep inputs disabled
+                if(hintEl){ hintEl.style.color = 'var(--accent)'; hintEl.innerHTML = 'Submission completed — we will contact you asap.'; }
+                if(statusEl){ statusEl.textContent = ''; }
+                if(sendBtn){
+                  // store original text and show a submitted state
+                  sendBtn.dataset.origText = sendBtn.innerHTML || 'Send';
+                  sendBtn.disabled = true;
+                  sendBtn.innerHTML = 'Submitted ✓';
+                  sendBtn.style.opacity = '0.95';
+                }
+                if(fileInput){ fileInput.disabled = true; }
+
+                // After a short delay close the panel and reset the form so it doesn't remain stuck
+                setTimeout(() => {
+                  try{
+                    const panel = document.getElementById('drop-panel');
+                    const toggle = document.getElementById('drop-toggle');
+                    if(panel){
+                      panel.setAttribute('aria-hidden','true');
+                      panel.style.transform = 'translateX(100%)';
+                    }
+                    if(toggle){ toggle.setAttribute('aria-expanded','false'); }
+
+                    // Reset the form to allow a fresh submission
+                    form.reset();
+                    if(sendBtn){
+                      sendBtn.disabled = false;
+                      sendBtn.innerHTML = sendBtn.dataset.origText || 'Send';
+                      sendBtn.style.opacity = '1';
+                    }
+                    if(fileInput){ fileInput.disabled = false; }
+                    if(hintEl){ hintEl.style.color = '#bdbdbd'; hintEl.innerHTML = initialHint; }
+                    // clear status label
+                    if(statusEl){ statusEl.textContent = ''; }
+                  }catch(e){ console.error('reset after submit failed', e); }
+                }, 3000);
+              })
+              .catch(err => {
+                // Show a concise error message inline
+                if(hintEl){ hintEl.style.color = '#ff6666'; hintEl.textContent = 'Submission failed — please try again.'; }
+                if(statusEl){ statusEl.textContent = ''; }
+                if(sendBtn){ sendBtn.disabled = false; sendBtn.style.opacity = '1'; }
+                console.error('FormSubmit AJAX error', err);
+              });
+          });
+        }
+      }catch(e){ console.error(e); }
+    });
+
     // Drop panel toggle
     (function(){
       const toggleBtn=document.getElementById('drop-toggle');
@@ -693,78 +813,6 @@
       };
       toggleBtn.addEventListener('click', toggle);
       close?.addEventListener('click', toggle);
-    })();
-
-    // AJAX submit for the contact form (FormSubmit)
-    (function(){
-      const form = document.getElementById('contact-form');
-      const status = document.getElementById('cf-status');
-      if(!form) return;
-      form.addEventListener('submit', async (e)=>{
-        e.preventDefault();
-        status.textContent = 'Sending...';
-        const submitBtn = document.getElementById('cf-submit');
-        submitBtn.disabled = true;
-        try{
-          // Client-side validation: file present, allowed type, within 4 MB
-          const fileEl = document.getElementById('cf-file');
-          const file = fileEl && fileEl.files && fileEl.files[0];
-          const MAX_BYTES = 4 * 1024 * 1024; // 4 MB
-          const allowedExt = ['pdf','doc','docx','ppt','pptx','jpg','jpeg','png'];
-          if(!file){
-            status.textContent = 'Please attach a file before sending.';
-            submitBtn.disabled = false;
-            return;
-          }
-          const ext = (file.name || '').split('.').pop().toLowerCase();
-          if(!allowedExt.includes(ext)){
-            status.textContent = 'File type not allowed. Allowed: PDF, Word (.doc/.docx), PowerPoint (.ppt/.pptx), JPG/PNG.';
-            submitBtn.disabled = false;
-            return;
-          }
-          if(file.size > MAX_BYTES){
-            status.textContent = 'File too large — maximum allowed size is 4 MB.';
-            submitBtn.disabled = false;
-            return;
-          }
-
-          const data = new FormData(form);
-          // Post to FormSubmit AJAX endpoint (action set on the form)
-          const res = await fetch(form.action, { method: form.method || 'POST', body: data, headers: { 'Accept': 'application/json' } });
-          if(res.ok){
-            const json = await res.json().catch(()=>null);
-            // FormSubmit returns a JSON success object for AJAX requests
-            status.textContent = (json && json.message) ? json.message : 'Thanks — we received your file. We will reply with a quote soon.';
-            form.reset();
-            // clear file info display
-            const info = document.getElementById('cf-file-info'); if(info) info.textContent = '';
-          } else {
-            const json = await res.json().catch(()=>({}));
-            // Try to surface helpful FormSubmit messages when available
-            const errMsg = (json && (json.message || (json.errors && json.errors.join(', ')))) || '';
-            if(errMsg) status.textContent = errMsg;
-            else status.textContent = 'Submission failed — please try again later.';
-            console.warn('FormSubmit error response:', json || res.status);
-          }
-        }catch(err){
-          console.error('Network error while sending form:', err);
-          status.textContent = 'Network error — please try again.';
-        }finally{
-          submitBtn.disabled = false;
-          setTimeout(()=> status.textContent = '', 6000);
-        }
-      });
-      // Show selected file info (name + size)
-      const fileInput = document.getElementById('cf-file');
-      const fileInfo = document.getElementById('cf-file-info');
-      if(fileInput && fileInfo){
-        fileInput.addEventListener('change', ()=>{
-          const f = fileInput.files && fileInput.files[0];
-          if(!f){ fileInfo.textContent = ''; return; }
-          const mb = (f.size / (1024*1024));
-          fileInfo.textContent = `${f.name} — ${mb.toFixed(2)} MB (max 4 MB)`;
-        });
-      }
     })();
   </script>
 </body>
