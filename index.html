@@ -875,6 +875,49 @@
       toggleBtn.addEventListener('click', toggle);
       close?.addEventListener('click', toggle);
     })();
+
+    // Safety fallback: ensure the dropForm submit handler is attached even if earlier init failed
+    document.addEventListener('DOMContentLoaded', function(){
+      try{
+        const form = document.getElementById('dropForm');
+        if(!form) return;
+        // If an init marker exists, assume the main handler attached successfully
+        if(form.dataset.oxAjaxInit) return;
+        form.dataset.oxAjaxInit = '1';
+
+        const statusEl = document.getElementById('dropFormStatus');
+        const hintEl = document.getElementById('dropHint');
+        const sendBtn = document.getElementById('dropSendBtn');
+
+        form.addEventListener('submit', function(ev){
+          ev.preventDefault();
+          try{
+            if(!form.checkValidity()) { form.reportValidity(); return; }
+            if(sendBtn){ sendBtn.disabled = true; sendBtn.style.opacity = '0.7'; }
+            if(hintEl){ hintEl.style.color = '#bdbdbd'; hintEl.textContent = 'Submitting...'; }
+
+            const fd = new FormData(form);
+            fetch(form.action, { method: 'POST', body: fd, headers: { 'Accept': 'application/json' } })
+              .then(resp=>{
+                if(!resp.ok) throw resp;
+                return resp.json().catch(()=>({ok:true}));
+              })
+              .then(()=>{
+                if(hintEl){ hintEl.style.color = 'var(--accent)'; hintEl.innerHTML = 'Submission completed — we will contact you asap.'; }
+                if(sendBtn){ sendBtn.dataset.origText = sendBtn.innerHTML || 'Send'; sendBtn.disabled = true; sendBtn.innerHTML = 'Submitted ✓'; sendBtn.style.opacity = '0.95'; }
+                setTimeout(()=>{
+                  try{ form.reset(); if(sendBtn){ sendBtn.disabled = false; sendBtn.innerHTML = sendBtn.dataset.origText || 'Send'; sendBtn.style.opacity = '1'; } if(hintEl){ hintEl.style.color = '#bdbdbd'; hintEl.innerHTML = hintEl.dataset.orig || 'We reply with <b>quotes within hours</b>. Files kept confidential.'; } }catch(e){ console.error(e); }
+                }, 2500);
+              })
+              .catch(err=>{
+                console.error('Fallback form submit failed', err);
+                if(hintEl){ hintEl.style.color = '#ff6666'; hintEl.textContent = 'Submission failed — please try again.'; }
+                if(sendBtn){ sendBtn.disabled = false; sendBtn.style.opacity = '1'; }
+              });
+          }catch(e){ console.error('Fallback submit handler error', e); }
+        });
+      }catch(e){ console.error('Failed to attach fallback submit handler', e); }
+    });
   </script>
 </body>
 </html>
